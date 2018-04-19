@@ -1,6 +1,6 @@
 # Mobile (and Desktop) Camera App Template (HTML, CSS, JS and WebRTC)
 
-**Note: It doesn't seem to work on Mobile Safari iOS 11, although it should. Any ideas why not, please let me know**
+**Note: It doesn't seem to work on Mobile Safari iOS 11, although it should. If you have any ideas why not, please let me know.**
 **This WebRTC example works on iOS 11.3: https://webrtc.github.io/samples/src/content/getusermedia/gum/**
 
 
