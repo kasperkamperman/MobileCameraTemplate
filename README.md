@@ -1,5 +1,9 @@
 # Mobile (and Desktop) Camera App Template (HTML, CSS, JS and WebRTC)
 
+**Note: It doesn't seem to work on Mobile Safari iOS 11, although it should. Any ideas why not, please let me know**
+**This WebRTC example works on iOS 11.3: https://webrtc.github.io/samples/src/content/getusermedia/gum/**
+
+
 I like to experiment with Computer Vision and AI API's (like Azure Cognetive Services, Google Cloud Vision, IBM Watson) to see if I can utilise them for some ideas. 
 
 The most easy way to test those scripts and APIs them is by directly making a photo and sending image data to the API/script, instead of uploading files. I didn't find a fast mobile first camera template for HTML5 as a starting point for my prototypes, so I developed one myself. The interface setup is mainly inspired by the standard Android and iOS Cameras.
