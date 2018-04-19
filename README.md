@@ -1,4 +1,4 @@
-# Mobile (and Desktop) Camera Template (HTML, CSS, JS)
+# Mobile (and Desktop) Camera App Template (HTML, CSS, JS and WebRTC)
 
 I like to experiment with Computer Vision and AI API's (like Azure Cognetive Services, Google Cloud Vision, IBM Watson) to see if
 I can utilize them for certain solutions. 
@@ -37,8 +37,8 @@ Feel free to use it in your next Computer Vision or AI project.
 
 ## Used Assets:
 
-- ("Basic Click Wooden")[https://freesound.org/people/GameAudio/sounds/220200/] - by (GameAudio)[https://www.gameaudio101.com]
-- [Material Design Icons] (https://material.io/icons/) (camera front, camera rear, photo camera, fullscreen, fullscreen exit)
+- [(]"Basic Click Wooden"](https://freesound.org/people/GameAudio/sounds/220200/) - by [GameAudio](https://www.gameaudio101.com)
+- [Material Design Icons](https://material.io/icons/) (camera front, camera rear, photo camera, fullscreen, fullscreen exit)
 
 ## Tested with:
 
