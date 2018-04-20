@@ -1,41 +1,7 @@
 /*
 
-A mobile first camera template. 
-
-I like to experiment with Computer Vision and AI API's (like Azure Cognetive Services, Google Cloud Vision, IBM Watson) to see if
-I can utalize them for certain solutions. 
-
-The most easy way to test them is directly making a photo and sending image data. I didn't find a fast
-mobile first camera template for HTML5 as a starting point for my prototypes, so I developed one myself. 
-
-The template doesn't do anything with the image data yet, I'll leave that up to you. 
-
-Functionalities
-- Fullscreen mode
-- Take Photo
-- Flip Camera (environment / user)
-
-
-
-
-A camera template to interface with a camera of a mobile phone (although desktop webcam works as well) by using WebRTC.
-You could use it as a starting point for computer vision scripts and API's. 
-Interface is mainly inspired by the Android 8 Camera. 
-
->> explanations and WebRTC examples
-
-    https://www.html5rocks.com/en/tutorials/getusermedia/intro/
-    https://developer.mozilla.org/en-US/docs/Web/API/MediaDevices/getUserMedia
-    https://webrtc.github.io/samples/ (mooie voorbeelden)
-
->> scripts used: 
-
-    https://github.com/sindresorhus/screenfull.js/
-    https://www.webrtc-experiment.com/DetectRTC/
-    https://github.com/webrtc/adapter
-    https://howlerjs.com
-  
 >> kasperkamperman.com - 2018-04-18
+>> https://www.kasperkamperman.com/blog/camera-template/
 
 */
 
@@ -55,7 +21,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
 
         // do some checks
         if (DetectRTC.isWebRTCSupported == false) {
-            alert('Please use Chrome, Firefox or iOS 11 and macOS 10.13.');
+            alert('Please use Chrome, Firefox, iOS 11, Android 5 or higher, Safari 11 or higher');
         }
         else {
             if (DetectRTC.hasWebcam == false) {
@@ -125,6 +91,9 @@ function initCameraUI() {
             screenfull.toggle(document.getElementById('container'));
         });
     }
+    else {
+        console.log("iOS doesn't support fullscreen (yet)");   
+    }
         
     // -- switch camera part
     if(amountOfCameras > 1) {
@@ -142,15 +111,15 @@ function initCameraUI() {
     }
 
     // Listen for orientation changes to make sure buttons stay at the side of the 
-    // physical (and virtual) buttons (opposite of camera)
-    // most is done by CSS media queries
-    // http://www.williammalone.com/articles/html5-javascript-ios-orientation/
+    // physical (and virtual) buttons (opposite of camera) most of the layout change is done by CSS media queries
     // https://www.sitepoint.com/introducing-screen-orientation-api/
-
+    // https://developer.mozilla.org/en-US/docs/Web/API/Screen/orientation
     window.addEventListener("orientationchange", function() {
-        // console.log(screen.orientation.angle);
-        // window.orientation.angle;
-        var angle = screen.orientation.angle; 
+        
+        // iOS doesn't have screen.orientation, so fallback to window.orientation.
+        // screen.orientation will 
+        if(screen.orientation) angle = screen.orientation.angle;
+        else                   angle = window.orientation;
 
         var guiControls = document.getElementById("gui_controls").classList;
         var vidContainer = document.getElementById("vid_container").classList;
@@ -158,7 +127,6 @@ function initCameraUI() {
         if(angle == 270 || angle == -90) {
             guiControls.add('left');
             vidContainer.add('left');
-
         }
         else {
             if ( guiControls.contains('left') ) guiControls.remove('left');
@@ -172,8 +140,6 @@ function initCameraUI() {
     }, false);
     
 }
-
-
 
 // https://github.com/webrtc/samples/blob/gh-pages/src/content/devices/input-output/js/main.js
 function initCameraStream() {

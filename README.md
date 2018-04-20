@@ -1,9 +1,5 @@
 # Mobile (and Desktop) Camera App Template (HTML, CSS, JS and WebRTC)
 
-**Note: It doesn't seem to work on Mobile Safari iOS 11, although it should. If you have any ideas why not, please let me know.**
-**This WebRTC example works on iOS 11.3: https://webrtc.github.io/samples/src/content/getusermedia/gum/**
-
-
 I like to experiment with Computer Vision and AI API's (like Azure Cognetive Services, Google Cloud Vision, IBM Watson) to see if I can utilise them for some ideas. 
 
 The most easy way to test those scripts and APIs them is by directly making a photo and sending image data to the API/script, instead of uploading files. I didn't find a fast mobile first camera template for HTML5 as a starting point for my prototypes, so I developed one myself. The interface setup is mainly inspired by the standard Android and iOS Cameras.
@@ -22,7 +18,7 @@ Feel free to use it in your next Computer Vision or AI project.
 
 ### Functionalities
 
-- Fullscreen mode
+- Fullscreen mode (not on Safari mobile (iOS))
 - Take Photo
 - Flip Camera (environment / user)
 - Supports both portrait and landscape mode
@@ -46,6 +42,7 @@ Feel free to use it in your next Computer Vision or AI project.
 - Chrome Android 8.0 (Nokia 5)
 - Chrome 65 - MacOs 10.12.6
 - Safari 11.0.3 - MacOs 10.12.6
+- Safari mobile - iOS 11
 
 ## Created by 
 
