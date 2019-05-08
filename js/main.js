@@ -88,7 +88,9 @@ function initCameraUI() {
         fullScreenChange();
 
         toggleFullScreenButton.addEventListener("click", function() {
-            screenfull.toggle(document.getElementById('container'));
+            screenfull.toggle(document.getElementById('container')).then(function () {
+ 					console.log('Fullscreen mode: ' + (screenfull.isFullscreen ? 'enabled' : 'disabled'))
+ 			});
         });
     }
     else {
