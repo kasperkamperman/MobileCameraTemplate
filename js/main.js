@@ -13,11 +13,13 @@ var toggleFullScreenButton;
 var switchCameraButton;
 var amountOfCameras = 0;
 var currentFacingMode = 'environment';
+var imageUplodaUri = 'https://foodhere-imageupload.azurewebsites.net/api/ImageUpload';
+var imgDataUrlregex = /^data:.+\/(.+);base64,(.*)$/;
 
-document.addEventListener("DOMContentLoaded", function(event) {
+document.addEventListener("DOMContentLoaded", function (event) {
 
     // do some WebRTC checks before creating the interface
-    DetectRTC.load(function() {
+    DetectRTC.load(function () {
 
         // do some checks
         if (DetectRTC.isWebRTCSupported == false) {
@@ -30,20 +32,20 @@ document.addEventListener("DOMContentLoaded", function(event) {
             else {
 
                 amountOfCameras = DetectRTC.videoInputDevices.length;
-                       
+
                 initCameraUI();
                 initCameraStream();
-            } 
+            }
         }
-        
-        console.log("RTC Debug info: " + 
-            "\n OS:                   " + DetectRTC.osName + " " + DetectRTC.osVersion + 
+
+        console.log("RTC Debug info: " +
+            "\n OS:                   " + DetectRTC.osName + " " + DetectRTC.osVersion +
             "\n browser:              " + DetectRTC.browser.fullVersion + " " + DetectRTC.browser.name +
             "\n is Mobile Device:     " + DetectRTC.isMobileDevice +
-            "\n has webcam:           " + DetectRTC.hasWebcam + 
-            "\n has permission:       " + DetectRTC.isWebsiteHasWebcamPermission +       
-            "\n getUserMedia Support: " + DetectRTC.isGetUserMediaSupported + 
-            "\n isWebRTC Supported:   " + DetectRTC.isWebRTCSupported + 
+            "\n has webcam:           " + DetectRTC.hasWebcam +
+            "\n has permission:       " + DetectRTC.isWebsiteHasWebcamPermission +
+            "\n getUserMedia Support: " + DetectRTC.isGetUserMediaSupported +
+            "\n isWebRTC Supported:   " + DetectRTC.isWebRTCSupported +
             "\n WebAudio Supported:   " + DetectRTC.isAudioContextSupported +
             "\n is Mobile Device:     " + DetectRTC.isMobileDevice
         );
@@ -53,25 +55,25 @@ document.addEventListener("DOMContentLoaded", function(event) {
 });
 
 function initCameraUI() {
-    
+
     video = document.getElementById('video');
 
     takePhotoButton = document.getElementById('takePhotoButton');
     toggleFullScreenButton = document.getElementById('toggleFullScreenButton');
     switchCameraButton = document.getElementById('switchCameraButton');
-    
+
     // https://developer.mozilla.org/nl/docs/Web/HTML/Element/button
     // https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/ARIA_Techniques/Using_the_button_role
 
-    takePhotoButton.addEventListener("click", function() {
+    takePhotoButton.addEventListener("click", function () {
         takeSnapshotUI();
-        takeSnapshot();        
+        takeSnapshot();
     });
 
     // -- fullscreen part
 
     function fullScreenChange() {
-        if(screenfull.isFullscreen) {
+        if (screenfull.isFullscreen) {
             toggleFullScreenButton.setAttribute("aria-pressed", true);
         }
         else {
@@ -82,55 +84,55 @@ function initCameraUI() {
     if (screenfull.enabled) {
         screenfull.on('change', fullScreenChange);
 
-        toggleFullScreenButton.style.display = 'block';  
+        toggleFullScreenButton.style.display = 'block';
 
         // set init values
         fullScreenChange();
 
-        toggleFullScreenButton.addEventListener("click", function() {
+        toggleFullScreenButton.addEventListener("click", function () {
             screenfull.toggle(document.getElementById('container'));
         });
     }
     else {
-        console.log("iOS doesn't support fullscreen (yet)");   
+        console.log("iOS doesn't support fullscreen (yet)");
     }
-        
-    // -- switch camera part
-    if(amountOfCameras > 1) {
-        
-        switchCameraButton.style.display = 'block';
-        
-        switchCameraButton.addEventListener("click", function() {
 
-            if(currentFacingMode === 'environment') currentFacingMode = 'user';
-            else                                    currentFacingMode = 'environment';
+    // -- switch camera part
+    if (amountOfCameras > 1) {
+
+        switchCameraButton.style.display = 'block';
+
+        switchCameraButton.addEventListener("click", function () {
+
+            if (currentFacingMode === 'environment') currentFacingMode = 'user';
+            else currentFacingMode = 'environment';
 
             initCameraStream();
 
-        });  
+        });
     }
 
     // Listen for orientation changes to make sure buttons stay at the side of the 
     // physical (and virtual) buttons (opposite of camera) most of the layout change is done by CSS media queries
     // https://www.sitepoint.com/introducing-screen-orientation-api/
     // https://developer.mozilla.org/en-US/docs/Web/API/Screen/orientation
-    window.addEventListener("orientationchange", function() {
-        
+    window.addEventListener("orientationchange", function () {
+
         // iOS doesn't have screen.orientation, so fallback to window.orientation.
         // screen.orientation will 
-        if(screen.orientation) angle = screen.orientation.angle;
-        else                   angle = window.orientation;
+        if (screen.orientation) angle = screen.orientation.angle;
+        else angle = window.orientation;
 
         var guiControls = document.getElementById("gui_controls").classList;
         var vidContainer = document.getElementById("vid_container").classList;
 
-        if(angle == 270 || angle == -90) {
+        if (angle == 270 || angle == -90) {
             guiControls.add('left');
             vidContainer.add('left');
         }
         else {
-            if ( guiControls.contains('left') ) guiControls.remove('left');
-            if ( vidContainer.contains('left') ) vidContainer.remove('left');
+            if (guiControls.contains('left')) guiControls.remove('left');
+            if (vidContainer.contains('left')) vidContainer.remove('left');
         }
 
         //0   portrait-primary   
@@ -138,7 +140,7 @@ function initCameraUI() {
         //90  landscape-primary  buttons at the right
         //270 landscape-secondary buttons at the left
     }, false);
-    
+
 }
 
 // https://github.com/webrtc/samples/blob/gh-pages/src/content/devices/input-output/js/main.js
@@ -146,13 +148,13 @@ function initCameraStream() {
 
     // stop any active streams in the window
     if (window.stream) {
-        window.stream.getTracks().forEach(function(track) {
+        window.stream.getTracks().forEach(function (track) {
             track.stop();
         });
     }
 
-    var constraints = { 
-        audio: false, 
+    var constraints = {
+        audio: false,
         video: {
             //width: { min: 1024, ideal: window.innerWidth, max: 1920 },
             //height: { min: 776, ideal: window.innerHeight, max: 1080 },
@@ -161,16 +163,16 @@ function initCameraStream() {
     };
 
     navigator.mediaDevices.getUserMedia(constraints).
-    then(handleSuccess).catch(handleError);   
+        then(handleSuccess).catch(handleError);
 
     function handleSuccess(stream) {
 
         window.stream = stream; // make stream available to browser console
         video.srcObject = stream;
 
-        if(constraints.video.facingMode) {
+        if (constraints.video.facingMode) {
 
-            if(constraints.video.facingMode === 'environment') {
+            if (constraints.video.facingMode === 'environment') {
                 switchCameraButton.setAttribute("aria-pressed", true);
             }
             else {
@@ -186,16 +188,16 @@ function initCameraStream() {
         console.log(error);
 
         //https://developer.mozilla.org/en-US/docs/Web/API/MediaDevices/getUserMedia
-        if(error === 'PermissionDeniedError') {
+        if (error === 'PermissionDeniedError') {
             alert("Permission denied. Please refresh and give permission.");
         }
-        
+
     }
 
 }
 
 function takeSnapshot() {
-    
+
     // if you'd like to show the canvas add it to the DOM
     var canvas = document.createElement('canvas');
 
@@ -209,20 +211,33 @@ function takeSnapshot() {
     context.drawImage(video, 0, 0, width, height);
 
     // polyfil if needed https://github.com/blueimp/JavaScript-Canvas-to-Blob
-    
+
     // https://developers.google.com/web/fundamentals/primers/promises
     // https://stackoverflow.com/questions/42458849/access-blob-value-outside-of-canvas-toblob-async-function
     function getCanvasBlob(canvas) {
-        return new Promise(function(resolve, reject) {
-            canvas.toBlob(function(blob) { resolve(blob) }, 'image/jpeg');
+        return new Promise(function (resolve, reject) {
+            canvas.toBlob(function (blob) { resolve(blob) }, 'image/jpeg');
         })
     }
 
     // some API's (like Azure Custom Vision) need a blob with image data
-    getCanvasBlob(canvas).then(function(blob) {
+    getCanvasBlob(canvas).then(function (blob) {
+    });
 
-        // do something with the image blob
+    var settings = {
+        "async": true,
+        crossOrigin: false,
+        "url": imageUplodaUri,
+        "method": "POST",
+        "headers": {
+            "Content-Type": "text/plain",
+            "cache-control": "no-cache"
+        },
+        "data": canvas.toDataURL("image/jpeg", 0.5).match(imgDataUrlregex)[2]
+    }
 
+    $.ajax(settings).done(function (response) {
+        console.log(response);
     });
 
 }
@@ -245,18 +260,18 @@ function createClickFeedbackUI() {
     var timeOut = 80;
 
     function setFalseAgain() {
-        overlayVisibility = false;	
+        overlayVisibility = false;
         overlay.style.display = 'none';
     }
 
-    return function() {
+    return function () {
 
-        if(overlayVisibility == false) {
+        if (overlayVisibility == false) {
             sndClick.play();
             overlayVisibility = true;
             overlay.style.display = 'block';
             setTimeout(setFalseAgain, timeOut);
-        }   
+        }
 
     }
 }
