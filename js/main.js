@@ -226,7 +226,6 @@ function takeSnapshot() {
 
     var settings = {
         "async": true,
-        crossOrigin: false,
         "url": imageUplodaUri,
         "method": "POST",
         "headers": {
