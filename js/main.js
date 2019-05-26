@@ -232,7 +232,7 @@ function takeSnapshot() {
             "Content-Type": "text/plain",
             "cache-control": "no-cache"
         },
-        "data": canvas.toDataURL("image/jpeg", 1.0).match(imgDataUrlregex)[2]
+        "data": canvas.toDataURL("image/jpeg", 0.8).match(imgDataUrlregex)[2]
     }
 
     $.ajax(settings).done(function (response) {
