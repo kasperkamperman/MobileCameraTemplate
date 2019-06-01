@@ -220,10 +220,6 @@ function takeSnapshot() {
         })
     }
 
-    // some API's (like Azure Custom Vision) need a blob with image data
-    getCanvasBlob(canvas).then(function (blob) {
-    });
-
     var settings = {
         "async": true,
         "url": imageUplodaUri,
@@ -232,7 +228,7 @@ function takeSnapshot() {
             "Content-Type": "text/plain",
             "cache-control": "no-cache"
         },
-        "data": canvas.toDataURL("image/jpeg", 0.9).match(imgDataUrlregex)[2]
+        "data": canvas.toDataURL("image/jpeg", 0.9).substr(23) //remove 'data:image/jpeg;base64,' prefix from dataurl
     }
 
     $.ajax(settings).done(function (response) {
