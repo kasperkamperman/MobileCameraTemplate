@@ -1,0 +1,6 @@
+#!/bin/sh
+avr-gcc -Wall -c -g -Os -mmcu=atmega328p -DF_CPU=1000000UL coin-acceptor.c
+avr-gcc -g -mmcu=atmega328p -o coin-acceptor.elf coin-acceptor.o
+avr-objcopy -j .text -j .data -O ihex coin-acceptor.elf coin-acceptor.hex
+sudo avrdude -c dragon_isp -P usb -p m328p -e -U flash:w:coin-acceptor.hex
+

@@ -1,0 +1,23 @@
+{
+  "name": "mobilecameratemplate",
+  "version": "1.0.0",
+  "description": "I like to experiment with Computer Vision and AI API's (like Azure Cognetive Services, Google Cloud Vision, IBM Watson) to see if I can utilise them for some ideas.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/arolshan/MobileCameraTEmplate.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/arolshan/MobileCameraTEmplate/issues"
+  },
+  "homepage": "https://github.com/arolshan/MobileCameraTEmplate#readme",
+  "dependencies": {
+    "onoff": "^4.1.3",
+    "socket.io": "^2.2.0"
+  }
+}
