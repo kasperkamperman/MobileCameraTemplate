@@ -1,7 +1,7 @@
 {
   "name": "mobilecameratemplate",
   "version": "1.0.0",
-  "description": "I like to experiment with Computer Vision and AI API's (like Azure Cognetive Services, Google Cloud Vision, IBM Watson) to see if I can utilise them for some ideas.",
+  "description": "",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"

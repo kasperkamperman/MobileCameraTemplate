@@ -1,0 +1,34 @@
+<html>
+<head>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, user-scalable=yes, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="Smart Device Camera Template for HTML, CSS, JS and WebRTC">
+  <meta name="keywords" content="HTML,CSS,JavaScript, WebRTC, Camera">
+  <meta name="author" content="Kasper Kamperman">
+  <title>GotEat Camera App</title>
+  <link rel="stylesheet" type="text/css" href="style.css">
+</head>
+<body>
+  <div id="container">
+    <div id="vid_container">
+        <video id="video" autoplay playsinline></video>
+        <div id="video_overlay">
+        </div>
+    </div>
+    <div id="gui_controls">
+        <!--<button id="switchCameraButton" name="switch Camera" type="button" aria-pressed="false"></button>-->
+        <button id="takePhotoButton" name="take Photo" type="button"></button>
+        <button id="toggleFullScreenButton" name="toggle FullScreen" type="button" aria-pressed="false"></button>
+    </div>      
+  </div> 
+  <script src="{{ url_for('static', filename='js/jquery.min.js') }}"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/1.7.3/socket.io.js"></script>
+  <script src="{{ url_for('static', filename='js/client.js') }}"></script>
+  <script src="{{ url_for('static', filename='js/DetectRTC.min.js') }}"></script>
+  <script src="{{ url_for('static', filename='js/adapter.min.js') }}"></script>  
+  <script src="{{ url_for('static', filename='js/screenfull.min.js') }}"></script>
+  <script src="{{ url_for('static', filename='js/howler.core.min.js') }}"></script>
+  <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+</body>
+</html>
