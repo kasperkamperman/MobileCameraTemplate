@@ -56,7 +56,10 @@ document.addEventListener("DOMContentLoaded", function (event) {
 
 function snapshot(){
     takeSnapshotUI();
-    return takeSnapshot();
+    // let newImage = 'https://via.placeholder.com/150/' + getRandomColor();
+    // pushImage(newImage);
+    var base64image = takeSnapshot();
+    pushImage("data:image/png;base64, " + base64image);
 }
 
 function initCameraUI() {
@@ -72,11 +75,8 @@ function initCameraUI() {
     // https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/ARIA_Techniques/Using_the_button_role
 
     takePhotoButton.addEventListener("click", function () {
-        console.log("takePhotoButton clicked")
-        // let newImage = 'https://via.placeholder.com/150/' + getRandomColor();
-        // pushImage(newImage);
-        var base64image = snapshot();
-        pushImage("data:image/png;base64, " + base64image);
+        console.log("takePhotoButton clicked");
+        snapshot();
     });
 
     // -- fullscreen part
