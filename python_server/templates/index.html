@@ -8,28 +8,34 @@
   <meta name="author" content="Kasper Kamperman">
   <title>GotEat Camera App</title>
   <link rel="stylesheet" type="text/css" href="style.css">
+  <link rel="stylesheet" type="text/css" href="quad-spinner.css">
 </head>
 <body>
   <div id="container">
-    <img id="img1" width="10%" src="https://via.placeholder.com/150" />
-    <img id="img2" width="10%" src="https://via.placeholder.com/150" />
-    <img id="img3" width="10%" src="https://via.placeholder.com/150" />
-    <img id="img4" width="10%" src="https://via.placeholder.com/150" />
-    <img id="img5" width="10%" src="https://via.placeholder.com/150" />
-    <img id="img6" width="10%" src="https://via.placeholder.com/150" />
-    <img id="img7" width="10%" src="https://via.placeholder.com/150" />
-  </div>
-  <div id="container">
     <div id="vid_container">
-        <video id="video" autoplay playsinline></video>
-        <div id="video_overlay">
-        </div>
+      <video id="video" autoplay playsinline></video>
+      <div id="video_overlay">
+      </div>
     </div>
     <div id="gui_controls">
-        <!--<button id="switchCameraButton" name="switch Camera" type="button" aria-pressed="false"></button>-->
-        <button id="takePhotoButton" name="take Photo" type="button"></button>
-        <button id="toggleFullScreenButton" name="toggle FullScreen" type="button" aria-pressed="false"></button>
-    </div>      
+      <!--<button id="switchCameraButton" name="switch Camera" type="button" aria-pressed="false"></button>-->
+      <button id="takePhotoButton" name="take Photo" type="button"></button>
+      <button id="toggleFullScreenButton" name="toggle FullScreen" type="button" aria-pressed="false"></button>
+    </div> 
+    <div id="image_stack">
+        <div id="container0">
+          <!-- <span class="cssload-loader"><span class="cssload-loader-inner"></span></span> -->
+          <img id="img1" width="10%" src="https://via.placeholder.com/150" />
+          <img id="img2" width="10%" src="https://via.placeholder.com/150" />
+          <img id="img3" width="10%" src="https://via.placeholder.com/150" />
+          <img id="img4" width="10%" src="https://via.placeholder.com/150" />
+          <img id="img5" width="10%" src="https://via.placeholder.com/150" />
+          <img id="img6" width="10%" src="https://via.placeholder.com/150" />
+          <img id="img7" width="10%" src="https://via.placeholder.com/150" />
+          <img id="img8" width="10%" src="https://via.placeholder.com/150" />
+          <img id="img9" width="10%" src="https://via.placeholder.com/150" />
+        </div>
+    </div>     
   </div> 
   <script src="{{ url_for('static', filename='js/jquery.min.js') }}"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/1.7.3/socket.io.js"></script>

@@ -10,6 +10,8 @@ function pushImage(url) {
     let imgUrl5 = $('#img4').attr('src');
     let imgUrl6 = $('#img5').attr('src');
     let imgUrl7 = $('#img6').attr('src');
+    let imgUrl8 = $('#img7').attr('src');
+    let imgUrl9 = $('#img8').attr('src');
 
     $('#img1').attr('src', imgUrl1);
     $('#img2').attr('src', imgUrl2);
@@ -18,6 +20,8 @@ function pushImage(url) {
     $('#img5').attr('src', imgUrl5);
     $('#img6').attr('src', imgUrl6);
     $('#img7').attr('src', imgUrl7);
+    $('#img8').attr('src', imgUrl8);
+    $('#img9').attr('src', imgUrl9);
 
 }
 

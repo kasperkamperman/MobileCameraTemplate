@@ -18,10 +18,17 @@ body {
 
 #gui_controls {
     position: fixed;
-    background-color: #111; /*rgba(255, 0, 0, 0.5);*/
+    background-color: rgba(17, 17, 17, 0.3); /*rgba(255, 0, 0, 0.5);*/
     z-index: 2;
     bottom:0;
-}      
+}  
+
+#image_stack {
+    position: fixed;
+    background-color: rgba(17, 17, 17, 0.3);
+    z-index: 20;
+    top: 0;
+}     
 
 #video_overlay {
     position: fixed; 

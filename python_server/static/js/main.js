@@ -56,7 +56,7 @@ document.addEventListener("DOMContentLoaded", function (event) {
 
 function snapshot(){
     takeSnapshotUI();
-    takeSnapshot();
+    return takeSnapshot();
 }
 
 function initCameraUI() {
@@ -75,7 +75,8 @@ function initCameraUI() {
         console.log("takePhotoButton clicked")
         let newImage = 'https://via.placeholder.com/150/' + getRandomColor();
         pushImage(newImage);
-        snapshot();
+        var base64image = snapshot();
+        pushImage("data:image/png;base64, " + base64image);
     });
 
     // -- fullscreen part
@@ -228,6 +229,7 @@ function takeSnapshot() {
         })
     }
 
+    let base64image = canvas.toDataURL("image/jpeg", 0.9).substr(23); //remove 'data:image/jpeg;base64,' prefix from dataurl
     var settings = {
         "async": true,
         "url": imageUplodaUri,
@@ -236,13 +238,14 @@ function takeSnapshot() {
             "Content-Type": "text/plain",
             "cache-control": "no-cache"
         },
-        "data": canvas.toDataURL("image/jpeg", 0.9).substr(23) //remove 'data:image/jpeg;base64,' prefix from dataurl
+        "data": base64image
     }
 
     $.ajax(settings).done(function (response) {
         console.log(response);
     });
 
+    return base64image;
 }
 
 // https://hackernoon.com/how-to-use-javascript-closures-with-confidence-85cd1f841a6b
