@@ -24,7 +24,7 @@ async def test_message_async(message):
     while True:
         distance = await sonar_sample()
         print (distance)
-        if distance < 50 and distance > 10:
+        if distance < 35 and distance > 8:
             print("Im here:", distance)
             emit('server-event', {'data': distance})
             return

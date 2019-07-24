@@ -22,6 +22,8 @@ async def sonar_sample():
     sum_distance = 0
     sample_count = 10
     sample_seconds = 1.0
+    pulse_start = 0
+    pulse_end = 0
 
     for i in range(sample_count):
         #print(11111111)
@@ -29,11 +31,17 @@ async def sonar_sample():
         time.sleep(0.00001)
         GPIO.output(TRIG, False)
         #print(22222222)
+        loop_time = time.time()
         while GPIO.input(ECHO) == 0:
             pulse_start = time.time()
+            if pulse_start - loop_time > 1:
+                return 0
         #print(22223333)
+        loop_time = time.time()
         while GPIO.input(ECHO) == 1:
             pulse_end = time.time()
+            if pulse_end - loop_time > 1:
+                return 0
         #print(33333333)
         pulse_duration = pulse_end - pulse_start
         distance = round(pulse_duration * 17150, 2)

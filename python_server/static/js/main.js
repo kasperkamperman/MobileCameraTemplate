@@ -61,6 +61,7 @@ function snapshot(){
 
 function initCameraUI() {
 
+    console.log("initCameraUI called")
     video = document.getElementById('video');
 
     takePhotoButton = document.getElementById('takePhotoButton');
@@ -71,6 +72,9 @@ function initCameraUI() {
     // https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/ARIA_Techniques/Using_the_button_role
 
     takePhotoButton.addEventListener("click", function () {
+        console.log("takePhotoButton clicked")
+        let newImage = 'https://via.placeholder.com/150/' + getRandomColor();
+        pushImage(newImage);
         snapshot();
     });
 

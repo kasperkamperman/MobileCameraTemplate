@@ -11,6 +11,15 @@
 </head>
 <body>
   <div id="container">
+    <img id="img1" width="10%" src="https://via.placeholder.com/150" />
+    <img id="img2" width="10%" src="https://via.placeholder.com/150" />
+    <img id="img3" width="10%" src="https://via.placeholder.com/150" />
+    <img id="img4" width="10%" src="https://via.placeholder.com/150" />
+    <img id="img5" width="10%" src="https://via.placeholder.com/150" />
+    <img id="img6" width="10%" src="https://via.placeholder.com/150" />
+    <img id="img7" width="10%" src="https://via.placeholder.com/150" />
+  </div>
+  <div id="container">
     <div id="vid_container">
         <video id="video" autoplay playsinline></video>
         <div id="video_overlay">
@@ -24,6 +33,7 @@
   </div> 
   <script src="{{ url_for('static', filename='js/jquery.min.js') }}"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/1.7.3/socket.io.js"></script>
+  <script src="{{ url_for('static', filename='js/image-stack.js') }}"></script>
   <script src="{{ url_for('static', filename='js/client.js') }}"></script>
   <script src="{{ url_for('static', filename='js/DetectRTC.min.js') }}"></script>
   <script src="{{ url_for('static', filename='js/adapter.min.js') }}"></script>  
