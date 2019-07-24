@@ -6,8 +6,10 @@ $(document).ready(function(){
     socket.emit('client-event', {data: "my event data"});
 
     socket.on('server-event', function(msg) {
-        console.log(msg)
-        socket.emit('client-event', {data: msg.data + 1});
+        console.log("got message: "+String(msg.data));
+        console.log("taking snapshot");
+        snapshot();
+        socket.emit('client-event', {data: "my event data"});
     });
 });
 

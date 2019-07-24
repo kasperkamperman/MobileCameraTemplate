@@ -54,6 +54,11 @@ document.addEventListener("DOMContentLoaded", function (event) {
 
 });
 
+function snapshot(){
+    takeSnapshotUI();
+    takeSnapshot();
+}
+
 function initCameraUI() {
 
     video = document.getElementById('video');
@@ -66,8 +71,7 @@ function initCameraUI() {
     // https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/ARIA_Techniques/Using_the_button_role
 
     takePhotoButton.addEventListener("click", function () {
-        takeSnapshotUI();
-        takeSnapshot();
+        snapshot();
     });
 
     // -- fullscreen part
