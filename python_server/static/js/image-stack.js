@@ -37,10 +37,10 @@ function getRandomColor() {
     return color;
 }
 
-$(document).ready(function(){
+// $(document).ready(function(){
 
-    console.log("takePhotoButton clicked")
-    let newImage = 'https://via.placeholder.com/150/' + getRandomColor();
-    pushImage(newImage);
+//     console.log("takePhotoButton clicked")
+//     let newImage = 'https://via.placeholder.com/150/' + getRandomColor();
+//     pushImage(newImage);
 
-});
+// });

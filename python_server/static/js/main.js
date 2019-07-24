@@ -73,8 +73,8 @@ function initCameraUI() {
 
     takePhotoButton.addEventListener("click", function () {
         console.log("takePhotoButton clicked")
-        let newImage = 'https://via.placeholder.com/150/' + getRandomColor();
-        pushImage(newImage);
+        // let newImage = 'https://via.placeholder.com/150/' + getRandomColor();
+        // pushImage(newImage);
         var base64image = snapshot();
         pushImage("data:image/png;base64, " + base64image);
     });
