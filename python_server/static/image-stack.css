@@ -1,0 +1,16 @@
+.image-stack-container { 
+	display:table;
+}
+
+uploadable-image { 
+	display:table-cell;
+	width: 11%;
+	display: inline-block;
+}
+
+.image-inner-container {
+	position:relative;
+	text-align: center;
+	margin: 5px;
+	box-shadow: 0px 0px 3px 3px rgba(255, 0, 0, 0.8);
+}
