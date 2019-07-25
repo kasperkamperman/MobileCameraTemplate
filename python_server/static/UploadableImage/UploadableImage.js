@@ -15,17 +15,12 @@ class UploadableImage extends HTMLElement {
     this.setImage(base64imageUrl);
     this.uploadImage(base64imageUrl);
   }
-  
-  setImage(base64imageUrl) {
-    let image = this.shadowRoot.querySelector('img');
-    image.setAttribute('src', base64imageUrl);
-  }
 
   uploadImage(base64imageUrl) {
     
     var settings = {
       "async": true,
-      "url": imageUplodaUri,
+      "url": 'https://foodhere-imageupload.azurewebsites.net/api/ImageUpload',
       "method": "POST",
       "headers": {
         "Content-Type": "text/plain",
@@ -37,8 +32,8 @@ class UploadableImage extends HTMLElement {
     $.ajax(settings)
     .done(response => {
       this.disableSpinner();
-      this.setBoxShadow('rgba(0, 255, 0, 0.8)');
       console.log(response);
+      this.setImageStatus(response);
     })
     .catch(error => {
       this.disableSpinner();
@@ -47,6 +42,48 @@ class UploadableImage extends HTMLElement {
     });
   };
   
+  setImageStatus(blobName, startTime = Date.now()) {
+    
+    var settings = {
+      "async": true,
+      "url": 'https://foodhere-imageupload.azurewebsites.net/api/ImageStatus?name=' + blobName,
+      "method": "get",
+      "headers": {
+        "Content-Type": "text/plain",
+        "cache-control": "no-cache"
+      }
+    };
+    
+    $.ajax(settings)
+    .always(response => {
+      
+      if (response.status == 300) {
+        console.log('no result yet, will retry later.')
+        if (Date.now() - startTime < 20*1000) {
+          setTimeout(() => this.setImageStatus(blobName, startTime), 1000);
+        }
+        else {
+          // this.setBoxShadow('rgba(255, 127, 0, 0.8)');
+        }
+      }
+      else if (response.status == 302) {
+        this.setBoxShadow('rgba(0, 255, 0, 0.8)');  
+        return;      
+      }
+      else if (response.status == 404) {
+        this.setBoxShadow('rgba(255, 0, 0, 0.8)');   
+        return;     
+      }
+      else 
+        console.error(response);  
+        return;   
+      });
+  }
+  
+  setImage(base64imageUrl) {
+    let image = this.shadowRoot.querySelector('img');
+    image.setAttribute('src', base64imageUrl);
+  }
   
   disableSpinner() {
     console.log('disableSpinner');
