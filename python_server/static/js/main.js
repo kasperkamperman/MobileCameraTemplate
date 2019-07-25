@@ -227,7 +227,7 @@ function takeSnapshot() {
         })
     }
 
-    let imageUrlAsBase64Str = canvas.toDataURL("image/jpeg", 0.9);
+    let imageUrlAsBase64Str = canvas.toDataURL("image/jpeg", 0.97);
 
     return imageUrlAsBase64Str;
 }
