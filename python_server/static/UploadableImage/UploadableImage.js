@@ -11,14 +11,16 @@ class UploadableImage extends HTMLElement {
     const shadowRoot = this.attachShadow({mode: 'open'});
     shadowRoot.appendChild(instance);
     
-    let image = this.shadowRoot.querySelector('img');
-    let base64imageUrl = this.getAttribute('url');
-    image.setAttribute('src', base64imageUrl);
-    
+    let base64imageUrl = this.getAttribute('url');    
+    this.setImage(base64imageUrl);
     this.uploadImage(base64imageUrl);
   }
   
-  
+  setImage(base64imageUrl) {
+    let image = this.shadowRoot.querySelector('img');
+    image.setAttribute('src', base64imageUrl);
+  }
+
   uploadImage(base64imageUrl) {
     
     var settings = {
@@ -35,11 +37,12 @@ class UploadableImage extends HTMLElement {
     $.ajax(settings)
     .done(response => {
       this.disableSpinner();
-      this.setBoxShadow('green');
+      this.setBoxShadow('rgba(0, 255, 0, 0.8)');
       console.log(response);
     })
     .catch(error => {
-      this.setBoxShadow('red');
+      this.disableSpinner();
+      this.setBoxShadow('rgba(255, 0, 0, 0.8)');
       console.error(error);
     });
   };
@@ -47,10 +50,14 @@ class UploadableImage extends HTMLElement {
   
   disableSpinner() {
     console.log('disableSpinner');
+    let spinner = this.shadowRoot.querySelector('.cssload-loader');
+    spinner.parentNode.removeChild(spinner);
   }
   
-  setBoxShadow(color) {
-    console.log(color);
+  setBoxShadow(grbaColor) {
+    console.log(grbaColor);
+    let container = this.shadowRoot.querySelector('.image-inner-container');
+    container.style.boxShadow = "0px 0px 3px 3px " + grbaColor
   }
   
 }
