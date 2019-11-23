@@ -5,6 +5,7 @@ I like to experiment with Computer Vision and AI API's (like Azure Cognetive Ser
 The most easy way to test those scripts and APIs them is by directly making a photo and sending image data to the API/script, instead of uploading files. I didn't find a fast mobile first camera template for HTML5 as a starting point for my prototypes, so I developed one myself. The interface setup is mainly inspired by the standard Android and iOS Cameras.
 
 The template doesn't do anything with the image(canvas) data yet, I'll leave that up to you. 
+If you need help with integrations or app development (PHP, Vue), feel free to contact me. 
 
 Feel free to use it in your next Computer Vision or AI project. 
 
@@ -42,7 +43,7 @@ Feel free to use it in your next Computer Vision or AI project.
 - Chrome Android 8.0 (Nokia 5)
 - Chrome 65 - MacOs 10.12.6
 - Safari 11.0.3 - MacOs 10.12.6
-- Safari mobile - iOS 11
+- Safari mobile - iOS 11, iOS 12, iOS 13
 
 ## Created by 
 
