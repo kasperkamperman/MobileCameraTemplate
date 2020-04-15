@@ -4,6 +4,7 @@
 >> https://www.kasperkamperman.com/blog/camera-template/
 
 */
+var reader = new FileReader();
 
 var takeSnapshotUI = createClickFeedbackUI();
 
@@ -14,9 +15,9 @@ var switchCameraButton;
 var amountOfCameras = 0;
 var currentFacingMode = 'environment';
 
-document.addEventListener('DOMContentLoaded', function(event) {
+document.addEventListener('DOMContentLoaded', function (event) {
   // do some WebRTC checks before creating the interface
-  DetectRTC.load(function() {
+  DetectRTC.load(function () {
     // do some checks
     if (DetectRTC.isWebRTCSupported == false) {
       alert(
@@ -71,7 +72,7 @@ function initCameraUI() {
   // https://developer.mozilla.org/nl/docs/Web/HTML/Element/button
   // https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/ARIA_Techniques/Using_the_button_role
 
-  takePhotoButton.addEventListener('click', function() {
+  takePhotoButton.addEventListener('click', function () {
     takeSnapshotUI();
     takeSnapshot();
   });
@@ -94,8 +95,8 @@ function initCameraUI() {
     // set init values
     fullScreenChange();
 
-    toggleFullScreenButton.addEventListener('click', function() {
-      screenfull.toggle(document.getElementById('container')).then(function() {
+    toggleFullScreenButton.addEventListener('click', function () {
+      screenfull.toggle(document.getElementById('container')).then(function () {
         console.log(
           'Fullscreen mode: ' +
             (screenfull.isFullscreen ? 'enabled' : 'disabled'),
@@ -110,7 +111,7 @@ function initCameraUI() {
   if (amountOfCameras > 1) {
     switchCameraButton.style.display = 'block';
 
-    switchCameraButton.addEventListener('click', function() {
+    switchCameraButton.addEventListener('click', function () {
       if (currentFacingMode === 'environment') currentFacingMode = 'user';
       else currentFacingMode = 'environment';
 
@@ -124,7 +125,7 @@ function initCameraUI() {
   // https://developer.mozilla.org/en-US/docs/Web/API/Screen/orientation
   window.addEventListener(
     'orientationchange',
-    function() {
+    function () {
       // iOS doesn't have screen.orientation, so fallback to window.orientation.
       // screen.orientation will
       if (screen.orientation) angle = screen.orientation.angle;
@@ -154,7 +155,7 @@ function initCameraUI() {
 function initCameraStream() {
   // stop any active streams in the window
   if (window.stream) {
-    window.stream.getTracks().forEach(function(track) {
+    window.stream.getTracks().forEach(function (track) {
       track.stop();
     });
   }
@@ -210,6 +211,7 @@ function initCameraStream() {
 }
 
 function takeSnapshot() {
+  console.log('dela');
   // if you'd like to show the canvas add it to the DOM
   var canvas = document.createElement('canvas');
 
@@ -221,21 +223,28 @@ function takeSnapshot() {
 
   context = canvas.getContext('2d');
   context.drawImage(video, 0, 0, width, height);
+  //  console.log(context);
 
   // polyfil if needed https://github.com/blueimp/JavaScript-Canvas-to-Blob
 
   // https://developers.google.com/web/fundamentals/primers/promises
   // https://stackoverflow.com/questions/42458849/access-blob-value-outside-of-canvas-toblob-async-function
   function getCanvasBlob(canvas) {
-    return new Promise(function(resolve, reject) {
-      canvas.toBlob(function(blob) {
+    return new Promise(function (resolve, reject) {
+      canvas.toBlob(function (blob) {
         resolve(blob);
+        reader.readAsDataURL(blob);
+        reader.onloadend = function () {
+          var base64data = reader.result;
+          console.log(base64data);
+        };
+        console.log(blob);
       }, 'image/jpeg');
     });
   }
 
   // some API's (like Azure Custom Vision) need a blob with image data
-  getCanvasBlob(canvas).then(function(blob) {
+  getCanvasBlob(canvas).then(function (blob) {
     // do something with the image blob
   });
 }
@@ -261,9 +270,9 @@ function createClickFeedbackUI() {
     overlay.style.display = 'none';
   }
 
-  return function() {
+  return function () {
     if (overlayVisibility == false) {
-      sndClick.play();
+      //sndClick.play();
       overlayVisibility = true;
       overlay.style.display = 'block';
       setTimeout(setFalseAgain, timeOut);
