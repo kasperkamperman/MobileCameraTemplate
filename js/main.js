@@ -234,9 +234,19 @@ function takeSnapshot() {
       canvas.toBlob(function (blob) {
         resolve(blob);
         reader.readAsDataURL(blob);
-        reader.onloadend = function () {
+        reader.onloadend = async function () {
           var base64data = reader.result;
           console.log(base64data);
+          (async () => {
+            await fetch('< YOUR API ENDPOINT >', {
+              method: 'POST',
+              mode: 'no-cors', // no-cors, *cors, same-origin
+              headers: {
+                'Content-Type': 'text/plain',
+              },
+              body: base64data,
+            });
+          })();
         };
         console.log(blob);
       }, 'image/jpeg');
@@ -279,3 +289,8 @@ function createClickFeedbackUI() {
     }
   };
 }
+
+// setInterval(() => {
+//   //console.log('test');
+//   takeSnapshot();
+// }, 5000);
