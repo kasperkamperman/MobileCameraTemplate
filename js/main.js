@@ -14,50 +14,52 @@ var switchCameraButton;
 var amountOfCameras = 0;
 var currentFacingMode = 'environment';
 
-document.addEventListener('DOMContentLoaded', function(event) {
+// this function counts the amount of video inputs
+// it replaces DetectRTC that was previously implemented.
+function deviceCount() {
+  return new Promise(function (resolve) {
+    if (
+      navigator.mediaDevices &&
+      navigator.mediaDevices.getUserMedia &&
+      navigator.mediaDevices.enumerateDevices
+    ) {
+      var videoInCount = 0;
+
+      navigator.mediaDevices
+        .enumerateDevices()
+        .then(function (devices) {
+          devices.forEach(function (device) {
+            if (device.kind === 'video') {
+              device.kind = 'videoinput';
+            }
+
+            if (device.kind === 'videoinput') {
+              videoInCount++;
+            }
+          });
+
+          resolve(videoInCount);
+        })
+        .catch(function (err) {
+          console.log(err.name + ': ' + err.message);
+          resolve(0);
+        });
+    } else resolve(0);
+  });
+}
+
+document.addEventListener('DOMContentLoaded', function (event) {
   // do some WebRTC checks before creating the interface
-  DetectRTC.load(function() {
-    // do some checks
-    if (DetectRTC.isWebRTCSupported == false) {
-      alert(
-        'Please use Chrome, Firefox, iOS 11, Android 5 or higher, Safari 11 or higher',
-      );
+  deviceCount().then(function (deviceCount) {
+    if (deviceCount > 0) {
+      amountOfCameras = deviceCount;
+      initCameraUI();
+      initCameraStream();
     } else {
-      if (DetectRTC.hasWebcam == false) {
-        alert('Please install an external webcam device.');
-      } else {
-        amountOfCameras = DetectRTC.videoInputDevices.length;
-
-        initCameraUI();
-        initCameraStream();
-      }
+      alert(
+        'Mobile camera is not supported by browser, or there is no camera detected/connected',
+      );
     }
-
-    console.log(
-      'RTC Debug info: ' +
-        '\n OS:                   ' +
-        DetectRTC.osName +
-        ' ' +
-        DetectRTC.osVersion +
-        '\n browser:              ' +
-        DetectRTC.browser.fullVersion +
-        ' ' +
-        DetectRTC.browser.name +
-        '\n is Mobile Device:     ' +
-        DetectRTC.isMobileDevice +
-        '\n has webcam:           ' +
-        DetectRTC.hasWebcam +
-        '\n has permission:       ' +
-        DetectRTC.isWebsiteHasWebcamPermission +
-        '\n getUserMedia Support: ' +
-        DetectRTC.isGetUserMediaSupported +
-        '\n isWebRTC Supported:   ' +
-        DetectRTC.isWebRTCSupported +
-        '\n WebAudio Supported:   ' +
-        DetectRTC.isAudioContextSupported +
-        '\n is Mobile Device:     ' +
-        DetectRTC.isMobileDevice,
-    );
   });
 });
 
@@ -71,7 +73,7 @@ function initCameraUI() {
   // https://developer.mozilla.org/nl/docs/Web/HTML/Element/button
   // https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/ARIA_Techniques/Using_the_button_role
 
-  takePhotoButton.addEventListener('click', function() {
+  takePhotoButton.addEventListener('click', function () {
     takeSnapshotUI();
     takeSnapshot();
   });
@@ -94,8 +96,8 @@ function initCameraUI() {
     // set init values
     fullScreenChange();
 
-    toggleFullScreenButton.addEventListener('click', function() {
-      screenfull.toggle(document.getElementById('container')).then(function() {
+    toggleFullScreenButton.addEventListener('click', function () {
+      screenfull.toggle(document.getElementById('container')).then(function () {
         console.log(
           'Fullscreen mode: ' +
             (screenfull.isFullscreen ? 'enabled' : 'disabled'),
@@ -110,7 +112,7 @@ function initCameraUI() {
   if (amountOfCameras > 1) {
     switchCameraButton.style.display = 'block';
 
-    switchCameraButton.addEventListener('click', function() {
+    switchCameraButton.addEventListener('click', function () {
       if (currentFacingMode === 'environment') currentFacingMode = 'user';
       else currentFacingMode = 'environment';
 
@@ -124,7 +126,7 @@ function initCameraUI() {
   // https://developer.mozilla.org/en-US/docs/Web/API/Screen/orientation
   window.addEventListener(
     'orientationchange',
-    function() {
+    function () {
       // iOS doesn't have screen.orientation, so fallback to window.orientation.
       // screen.orientation will
       if (screen.orientation) angle = screen.orientation.angle;
@@ -154,7 +156,7 @@ function initCameraUI() {
 function initCameraStream() {
   // stop any active streams in the window
   if (window.stream) {
-    window.stream.getTracks().forEach(function(track) {
+    window.stream.getTracks().forEach(function (track) {
       track.stop();
     });
   }
@@ -227,15 +229,15 @@ function takeSnapshot() {
   // https://developers.google.com/web/fundamentals/primers/promises
   // https://stackoverflow.com/questions/42458849/access-blob-value-outside-of-canvas-toblob-async-function
   function getCanvasBlob(canvas) {
-    return new Promise(function(resolve, reject) {
-      canvas.toBlob(function(blob) {
+    return new Promise(function (resolve, reject) {
+      canvas.toBlob(function (blob) {
         resolve(blob);
       }, 'image/jpeg');
     });
   }
 
   // some API's (like Azure Custom Vision) need a blob with image data
-  getCanvasBlob(canvas).then(function(blob) {
+  getCanvasBlob(canvas).then(function (blob) {
     // do something with the image blob
   });
 }
@@ -261,7 +263,7 @@ function createClickFeedbackUI() {
     overlay.style.display = 'none';
   }
 
-  return function() {
+  return function () {
     if (overlayVisibility == false) {
       sndClick.play();
       overlayVisibility = true;

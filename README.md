@@ -1,20 +1,22 @@
 # Mobile (and Desktop) Camera App Template (HTML, CSS, JS and WebRTC)
 
-I like to experiment with Computer Vision and AI API's (like Azure Cognetive Services, Google Cloud Vision, IBM Watson) to see if I can utilise them for some ideas. 
+Release 17-05-2020: Replaced DetectRTC with own code to solve a bug on iOS 13.4.1
+
+I like to experiment with Computer Vision and AI API's (like Azure Cognetive Services, Google Cloud Vision, IBM Watson) to see if I can utilise them for some ideas.
 
 The most easy way to test those scripts and APIs them is by directly making a photo and sending image data to the API/script, instead of uploading files. I didn't find a fast mobile first camera template for HTML5 as a starting point for my prototypes, so I developed one myself. The interface setup is mainly inspired by the standard Android and iOS Cameras.
 
-The template doesn't do anything with the image(canvas) data yet, I'll leave that up to you. 
-If you need help with integrations or app development (PHP, Vue), feel free to contact me. 
+The template doesn't do anything with the image(canvas) data yet, I'll leave that up to you.
+If you need help with integrations or app development (PHP, Vue), feel free to contact me.
 
-Feel free to use it in your next Computer Vision or AI project. 
+Feel free to use it in your next Computer Vision or AI project.
 
 ### Requirements
 
-- WebRTC is only supported on secure connections. So you need to serve it from https. 
-*You can test and debug in Chrome from localhost though (this doesn't work in Safari).* 
+- WebRTC is only supported on secure connections. So you need to serve it from https.
+  _You can test and debug in Chrome from localhost though (this doesn't work in Safari)._
 
-- A recent OS and browser. It should work on recent Phones and OS-es. If it isn't, please 
+- A recent OS and browser. It should work on recent Phones and OS-es. If it isn't, please
   let me know (issue) (including a suggestion to fix it). Also add the debugging info in the console.
 
 ### Functionalities
@@ -29,7 +31,6 @@ Feel free to use it in your next Computer Vision or AI project.
 ## Used Libraries:
 
 - Fullscreen functionality: [Screenfull.js](https://github.com/sindresorhus/screenfull.js/)
-- Detect WebRTC support: [DetectRTC.js](https://www.webrtc-experiment.com/DetectRTC/)
 - WebRTC cross-browser: [Adapter.js](https://github.com/webrtc/adapter)
 - UI click sound: [Howler.js](https://howlerjs.com)
 
@@ -41,17 +42,17 @@ Feel free to use it in your next Computer Vision or AI project.
 ## Tested with:
 
 - Chrome Android 8.0 (Nokia 5)
-- Chrome 65 - MacOs 10.12.6
-- Safari 11.0.3 - MacOs 10.12.6
-- Safari mobile - iOS 11, iOS 12, iOS 13
+- Chrome 65 - Chrome 80
+- Safari 11.0.3, 13.1
+- Safari mobile - iOS 11, iOS 12, iOS 13.4.1
 
-## Created by 
+## Created by
 
 [Kasper Kamperman](https://www.kasperkamperman.com/blog/camera-template/)
 
-Credits and a link to my website are always appreciated. 
+Credits and a link to my website are always appreciated.
 I'm always curious how people end up using my stuff, so
-feel free to [mail](https://www.kasperkamperman.com/contact/) or [send a tweet @kasperkamperman](https://twitter.com/kasperkamperman). 
+feel free to [mail](https://www.kasperkamperman.com/contact/) or [send a tweet @kasperkamperman](https://twitter.com/kasperkamperman).
 
 ## Good WebRTC resources
 
