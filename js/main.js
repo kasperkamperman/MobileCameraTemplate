@@ -18,49 +18,76 @@ var currentFacingMode = 'environment';
 // it replaces DetectRTC that was previously implemented.
 function deviceCount() {
   return new Promise(function (resolve) {
-    if (
-      navigator.mediaDevices &&
-      navigator.mediaDevices.getUserMedia &&
-      navigator.mediaDevices.enumerateDevices
-    ) {
-      var videoInCount = 0;
+    var videoInCount = 0;
 
-      navigator.mediaDevices
-        .enumerateDevices()
-        .then(function (devices) {
-          devices.forEach(function (device) {
-            if (device.kind === 'video') {
-              device.kind = 'videoinput';
-            }
+    navigator.mediaDevices
+      .enumerateDevices()
+      .then(function (devices) {
+        console.log(devices);
+        devices.forEach(function (device) {
+          if (device.kind === 'video') {
+            device.kind = 'videoinput';
+          }
 
-            if (device.kind === 'videoinput') {
-              videoInCount++;
-            }
-          });
-
-          resolve(videoInCount);
-        })
-        .catch(function (err) {
-          console.log(err.name + ': ' + err.message);
-          resolve(0);
+          if (device.kind === 'videoinput') {
+            videoInCount++;
+          }
         });
-    } else resolve(0);
+
+        resolve(videoInCount);
+      })
+      .catch(function (err) {
+        console.log(err.name + ': ' + err.message);
+        resolve(0);
+      });
   });
 }
 
 document.addEventListener('DOMContentLoaded', function (event) {
+  // check if media is supported
+  if (
+    navigator.mediaDevices &&
+    navigator.mediaDevices.getUserMedia &&
+    navigator.mediaDevices.enumerateDevices
+  ) {
+    navigator.mediaDevices
+      .getUserMedia({
+        audio: true,
+        video: true,
+      })
+      .then(function (stream) {
+        stream.getTracks().forEach(function (track) {
+          track.stop();
+        });
+
+        deviceCount().then(function (deviceCount) {
+          console.log(deviceCount);
+          amountOfCameras = deviceCount;
+          initCameraUI();
+          initCameraStream();
+        });
+      })
+      .catch(function (error) {
+        console.error('getUserMedia() error: ', error);
+      });
+  } else {
+    alert(
+      'Mobile camera is not supported by browser, or there is no camera detected/connected',
+    );
+  }
+
   // do some WebRTC checks before creating the interface
-  deviceCount().then(function (deviceCount) {
-    if (deviceCount > 0) {
-      amountOfCameras = deviceCount;
-      initCameraUI();
-      initCameraStream();
-    } else {
-      alert(
-        'Mobile camera is not supported by browser, or there is no camera detected/connected',
-      );
-    }
-  });
+  // deviceCount().then(function (deviceCount) {
+  //   if (deviceCount > 0) {
+  //     amountOfCameras = deviceCount;
+  //     initCameraUI();
+  //     initCameraStream();
+  //   } else {
+  //     alert(
+  //       'Mobile camera is not supported by browser, or there is no camera detected/connected',
+  //     );
+  //   }
+  // });
 });
 
 function initCameraUI() {
