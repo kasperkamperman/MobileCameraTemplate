@@ -1,6 +1,7 @@
 /*
 
 >> kasperkamperman.com - 2018-04-18
+>> kasperkamperman.com - 2020-05-17
 >> https://www.kasperkamperman.com/blog/camera-template/
 
 */
@@ -23,7 +24,6 @@ function deviceCount() {
     navigator.mediaDevices
       .enumerateDevices()
       .then(function (devices) {
-        console.log(devices);
         devices.forEach(function (device) {
           if (device.kind === 'video') {
             device.kind = 'videoinput';
@@ -31,6 +31,7 @@ function deviceCount() {
 
           if (device.kind === 'videoinput') {
             videoInCount++;
+            console.log('videocam: ' + device.label);
           }
         });
 
@@ -44,15 +45,18 @@ function deviceCount() {
 }
 
 document.addEventListener('DOMContentLoaded', function (event) {
-  // check if media is supported
+  // check if mediaDevices is supported
   if (
     navigator.mediaDevices &&
     navigator.mediaDevices.getUserMedia &&
     navigator.mediaDevices.enumerateDevices
   ) {
+    // first we call getUserMedia to trigger permissions
+    // we need this before deviceCount, otherwise Safari doesn't return all the cameras
+    // we need to have the number in order to display the switch front/back button
     navigator.mediaDevices
       .getUserMedia({
-        audio: true,
+        audio: false,
         video: true,
       })
       .then(function (stream) {
@@ -61,13 +65,19 @@ document.addEventListener('DOMContentLoaded', function (event) {
         });
 
         deviceCount().then(function (deviceCount) {
-          console.log(deviceCount);
           amountOfCameras = deviceCount;
+
+          // init the UI and the camera stream
           initCameraUI();
           initCameraStream();
         });
       })
       .catch(function (error) {
+        //https://developer.mozilla.org/en-US/docs/Web/API/MediaDevices/getUserMedia
+        if (error === 'PermissionDeniedError') {
+          alert('Permission denied. Please refresh and give permission.');
+        }
+
         console.error('getUserMedia() error: ', error);
       });
   } else {
@@ -75,19 +85,6 @@ document.addEventListener('DOMContentLoaded', function (event) {
       'Mobile camera is not supported by browser, or there is no camera detected/connected',
     );
   }
-
-  // do some WebRTC checks before creating the interface
-  // deviceCount().then(function (deviceCount) {
-  //   if (deviceCount > 0) {
-  //     amountOfCameras = deviceCount;
-  //     initCameraUI();
-  //     initCameraStream();
-  //   } else {
-  //     alert(
-  //       'Mobile camera is not supported by browser, or there is no camera detected/connected',
-  //     );
-  //   }
-  // });
 });
 
 function initCameraUI() {
@@ -184,6 +181,7 @@ function initCameraStream() {
   // stop any active streams in the window
   if (window.stream) {
     window.stream.getTracks().forEach(function (track) {
+      console.log(track);
       track.stop();
     });
   }
@@ -224,17 +222,10 @@ function initCameraStream() {
     const settings = track.getSettings();
     str = JSON.stringify(settings, null, 4);
     console.log('settings ' + str);
-
-    //return navigator.mediaDevices.enumerateDevices();
   }
 
   function handleError(error) {
-    console.log(error);
-
-    //https://developer.mozilla.org/en-US/docs/Web/API/MediaDevices/getUserMedia
-    if (error === 'PermissionDeniedError') {
-      alert('Permission denied. Please refresh and give permission.');
-    }
+    console.error('getUserMedia() error: ', error);
   }
 }
 
